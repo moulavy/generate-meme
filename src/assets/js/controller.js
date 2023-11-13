@@ -55,13 +55,15 @@ export default class MemeController {
    }
    handleAddText(text, color, fontSize) {
       this.model.addText(text, color, fontSize);
+      const lastTextIndex = this.model.texts.length - 1;
+
       this.view.renderMeme(this.model);
 
       // изменение цвета текста
       const textColorInput = document.querySelector('.text-color-input');
       textColorInput.addEventListener('input', () => {
          const color = textColorInput.value;
-         this.model.texts[this.model.texts.length - 1].color = color;
+         this.model.texts[lastTextIndex].color = color;
          this.view.renderMeme(this.model);
       });
 
@@ -69,8 +71,54 @@ export default class MemeController {
       const textSizeInput = document.querySelector('.text-size-input');
       textSizeInput.addEventListener('input', () => {
          const fontSize = textSizeInput.value;
-         this.model.texts[this.model.texts.length - 1].fontSize = fontSize;
+         this.model.texts[lastTextIndex].fontSize = fontSize;
          this.view.renderMeme(this.model);
       });
+
+      // слушатели для кнопок перемещения текста
+      const buttonsMoving = document.querySelector('.buttons-moving');
+      buttonsMoving.addEventListener('click', (event) => {
+         const buttonClass = event.target.classList[1];
+
+         switch (buttonClass) {
+            case 'up':
+               this.handleMoveText('up', lastTextIndex);
+               break;
+            case 'right':
+               this.handleMoveText('right', lastTextIndex);
+               break;
+            case 'left':
+               this.handleMoveText('left', lastTextIndex);
+               break;
+            case 'down':
+               this.handleMoveText('down', lastTextIndex);
+               break;
+            default:
+               break;
+         }
+      });
+   }
+   handleMoveText(direction, textIndex) {
+      const step = 10; // шаг перемещения 
+
+      switch (direction) {
+         case 'up':
+            this.model.texts[textIndex].y -= step;
+            break;
+         case 'right':
+            this.model.texts[textIndex].x += step;
+            break;
+         case 'left':
+            this.model.texts[textIndex].x -= step;
+            break;
+         case 'down':
+            this.model.texts[textIndex].y += step;
+            break;
+         default:
+            break;
+      }
+
+      this.model.updateTextPosition(textIndex, this.model.texts[textIndex].x, this.model.texts[textIndex].y);
+      this.view.renderMeme(this.model);
    }
 }

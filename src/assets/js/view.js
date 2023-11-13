@@ -17,7 +17,7 @@ export default class View {
       model.texts.forEach((text) => {
          this.context.fillStyle = text.color;
          this.context.font = `${text.fontSize}px Arial`;
-         this.context.fillText(text.text, 50, 50); // положение текста
+         this.context.fillText(text.text, text.x, text.y); // положение текста
       });
    }
 }
