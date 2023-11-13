@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -23,15 +24,28 @@
             <canvas class="memeCanvas" width="400" height="400"></canvas>
             <div class="buttons">
                 <div class="add-text">
-                    
                     <textarea
                         class="text-input-add"
                         placeholder="Введите текст"
                     ></textarea>
                     <button class="add-text_button">Добавить текст</button>
                 </div>
-                <button class="save-button">Сохранить мем</button>
+                <div class="buttons-style">
+                    <label
+                        >Цвет текста
+                        <input type="color" class="text-color-input" />
+                    </label>
+                    <label
+                        >Размер шрифта
+                        <input
+                            value="15"
+                            type="number"
+                            class="text-size-input"
+                        />
+                    </label>
+                </div>
             </div>
+            <button class="save-button">Сохранить мем</button>
         </div>
         <script type="module" src="./src/assets/js/index.js"></script>
     </body>

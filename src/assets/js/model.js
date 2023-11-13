@@ -1,15 +1,22 @@
-export default class Model{
+export default class MemeModel {
    constructor() {
       this.image = null;
       this.texts = [];
    }
+
+   // обновления данных модели
    setImage(image) {
       this.image = image;
    }
-   addText(text) {
-      this.text.push({ text, x: 50, y: 50 });
+
+   addText(text, color, fontSize) {
+      this.texts.push({ text, color, fontSize });
    }
-   getTexts() {
-      return this.texts;
+
+   getMemeData() {
+      return {
+         image: this.image,
+         texts: this.texts,
+      };
    }
 }
