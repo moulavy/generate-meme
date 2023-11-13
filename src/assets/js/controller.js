@@ -43,11 +43,6 @@ export default class MemeController {
       reader.readAsDataURL(file);
    }
 
-   handleAddText(text, color, fontSize) {
-      this.model.addText(text, color, fontSize);
-      this.view.renderMeme(this.model);
-   }
-
    handleSaveMeme() {
       // получаем данные мема для сохранения
       const memeData = this.model.getMemeData();
@@ -57,5 +52,25 @@ export default class MemeController {
       downloadLink.href = memeData.image.src;
       downloadLink.download = 'meme.png';
       downloadLink.click();
+   }
+   handleAddText(text, color, fontSize) {
+      this.model.addText(text, color, fontSize);
+      this.view.renderMeme(this.model);
+
+      // изменение цвета текста
+      const textColorInput = document.querySelector('.text-color-input');
+      textColorInput.addEventListener('input', () => {
+         const color = textColorInput.value;
+         this.model.texts[this.model.texts.length - 1].color = color;
+         this.view.renderMeme(this.model);
+      });
+
+      // изменение размера шрифта
+      const textSizeInput = document.querySelector('.text-size-input');
+      textSizeInput.addEventListener('input', () => {
+         const fontSize = textSizeInput.value;
+         this.model.texts[this.model.texts.length - 1].fontSize = fontSize;
+         this.view.renderMeme(this.model);
+      });
    }
 }
