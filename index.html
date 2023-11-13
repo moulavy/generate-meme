@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Генератор Мемов</title>
+        <link rel="stylesheet" href="./src/assets/style/index.css" />
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="title">Генератор мемов</h1>
+            <div class="input-wrapper">
+                <label for="fileInput" class="upload-button"
+                    >Выберите изображение</label
+                >
+                <input
+                    id="fileInput"
+                    type="file"
+                    class="input-image"
+                    accept=".jpg, .jpeg, .png, .svg"
+                />
+            </div>
+            <canvas class="memeCanvas" width="400" height="400"></canvas>
+            <div class="buttons">
+                <div class="add-text">
+                    
+                    <textarea
+                        class="text-input-add"
+                        placeholder="Введите текст"
+                    ></textarea>
+                    <button class="add-text_button">Добавить текст</button>
+                </div>
+                <button class="save-button">Сохранить мем</button>
+            </div>
+        </div>
+    </body>
+</html>
