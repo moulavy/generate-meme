@@ -70,49 +70,72 @@ export default class MemeController {
       downloadLink.click();
    }
    handleAddText(text, color, fontSize) {
+      // добавляем текст в модель
       this.model.addText(text, color, fontSize);
       const lastTextIndex = this.model.texts.length - 1;
 
+      // обновляем текст на канвасе
       this.view.renderMeme(this.model);
 
-      // изменение цвета текста
-      const textColorInput = document.querySelector('.text-color-input');
-      textColorInput.addEventListener('input', () => {
-         const color = textColorInput.value;
-         this.model.texts[lastTextIndex].color = color;
-         this.view.renderMeme(this.model);
-      });
+      // обновляем слушатели только для последнего добавленного текста
+      this.updateTextListeners(lastTextIndex);
 
-      // изменение размера шрифта
+      this.view.renderMeme(this.model);
+   }
+
+   updateTextListeners(textIndex, textElement) {
+      // получаем текущие цвет и размер из модели
+      const currentText = this.model.texts[textIndex];
+      const textColorInput = document.querySelector('.text-color-input');
       const textSizeInput = document.querySelector('.text-size-input');
-      textSizeInput.addEventListener('input', () => {
-         const fontSize = textSizeInput.value;
-         this.model.texts[lastTextIndex].fontSize = fontSize;
+
+      // обновляем значение инпутов цвета и размера
+      textColorInput.value = currentText.color;
+      textSizeInput.value = currentText.fontSize;
+
+      // удаляем старые слушатели, чтобы избежать их накопления
+      textColorInput.removeEventListener('input', this.textColorInputHandler);
+      textSizeInput.removeEventListener('input', this.textSizeInputHandler);
+
+      // добавляем новые слушатели
+      this.textColorInputHandler = () => {
+         const color = textColorInput.value;
+         this.model.texts[textIndex].color = color;
          this.view.renderMeme(this.model);
-      });
+      };
+      textColorInput.addEventListener('input', this.textColorInputHandler);
+
+      this.textSizeInputHandler = () => {
+         const fontSize = textSizeInput.value;
+         this.model.texts[textIndex].fontSize = fontSize;
+         this.view.renderMeme(this.model);
+      };
+      textSizeInput.addEventListener('input', this.textSizeInputHandler);
 
       // слушатели для кнопок перемещения текста
       const buttonsMoving = document.querySelector('.buttons-moving');
-      buttonsMoving.addEventListener('click', (event) => {
+      buttonsMoving.removeEventListener('click', this.buttonsMovingHandler);
+      this.buttonsMovingHandler = (event) => {
          const buttonClass = event.target.classList[1];
 
          switch (buttonClass) {
             case 'up':
-               this.handleMoveText('up', lastTextIndex);
+               this.handleMoveText('up', textIndex);
                break;
             case 'right':
-               this.handleMoveText('right', lastTextIndex);
+               this.handleMoveText('right', textIndex);
                break;
             case 'left':
-               this.handleMoveText('left', lastTextIndex);
+               this.handleMoveText('left', textIndex);
                break;
             case 'down':
-               this.handleMoveText('down', lastTextIndex);
+               this.handleMoveText('down', textIndex);
                break;
             default:
                break;
          }
-      });
+      };
+      buttonsMoving.addEventListener('click', this.buttonsMovingHandler);
    }
    handleMoveText(direction, textIndex) {
       const step = 10; // шаг перемещения 
