@@ -24,6 +24,7 @@ body{
 canvas {
   border: 1px solid #ccc;
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 textarea {
@@ -32,6 +33,7 @@ textarea {
 .buttons-style{
    display: flex;
    flex-direction: column;
+   gap:5px;
 }
 .buttons-moving{
    display: flex;

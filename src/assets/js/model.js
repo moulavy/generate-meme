@@ -10,7 +10,7 @@ export default class MemeModel {
    }
 
    addText(text, color, fontSize) {
-      const centerX = this.image ? 50: 0;
+      const centerX = this.image ? 50 : 0;
       const centerY = this.image ? 50 : 0;
 
       this.texts.push({ text, color, fontSize, x: centerX, y: centerY });

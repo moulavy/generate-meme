@@ -47,9 +47,25 @@ export default class MemeController {
       // получаем данные мема для сохранения
       const memeData = this.model.getMemeData();
 
+      // создаем временный холст
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = memeData.image.width;
+      tempCanvas.height = memeData.image.height;
+      const tempContext = tempCanvas.getContext('2d');
+
+      // рисуем изображение на временном холсте
+      tempContext.drawImage(memeData.image, 0, 0, tempCanvas.width, tempCanvas.height);
+
+      // рисуем тексты на временном холсте
+      memeData.texts.forEach((text) => {
+         tempContext.fillStyle = text.color;
+         tempContext.font = `${text.fontSize}px Arial`;
+         tempContext.fillText(text.text, text.x, text.y);
+      });
+
       // создаем временную ссылку для скачивания
       const downloadLink = document.createElement('a');
-      downloadLink.href = memeData.image.src;
+      downloadLink.href = tempCanvas.toDataURL(); // получаем Data URL изображения с текстом
       downloadLink.download = 'meme.png';
       downloadLink.click();
    }
